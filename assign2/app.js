@@ -1,7 +1,7 @@
 (function () {
 'use strinct';
 
-var toBuyList = [
+var initList = [
   {
     name: "Milk",
     quantity: "2"
@@ -24,80 +24,66 @@ var toBuyList = [
 angular.module('ShoppingListApp', [])
 .controller('ShoppingListController1', ShoppingListController1)
 .controller('ShoppingListController2', ShoppingListController2)
-.factory('ShoppingListFactory', ShoppingListFactory);
+.service('ShoppingListService', ShoppingListService);
 
 
 
-ShoppingListController1.$inject = ['ShoppingListFactory'];
-function ShoppingListController1(ShoppingListFactory) {
+ShoppingListController1.$inject = ['ShoppingListService'];
+function ShoppingListController1(ShoppingListService) {
 
 	var list1 = this;
 
-	var shoppingList = ShoppingListFactory();
-
-	list1.items = toBuyList;
+	list1.items = ShoppingListService.getToBuy();
 
 	console.log("List1 size:",list1.items.length);
 
-	list1.addItem = function(){
-		shoppingList.addItem(list1.itemName,list1.quantity);
+	list1.checkOff = function(itemIndex){
+		ShoppingListService.checkOff(itemIndex);
 	};
 
-	list1.removeItem = function(itemIndex){
-		console.log("remove");
-		shoppingList.removeItem(itemIndex);
-	};
 }
 
 
-ShoppingListController2.$inject = ['ShoppingListFactory'];
-function ShoppingListController2(ShoppingListFactory) {
+ShoppingListController2.$inject = ['ShoppingListService'];
+function ShoppingListController2(ShoppingListService) {
 
 	var list2 = this;
-
-	var shoppingList = ShoppingListFactory();
-
-	list2.items = shoppingList.getItems();
+	
+	list2.items = ShoppingListService.getBougth();
 	console.log("List2 size:",list2.items.length);
 
-	list2.addItem = function(){
-		shoppingList.addItem(list1.itemName,list1.quantity);
-	};
+	// list2.addItem = function(){
+	// 	shoppingList.addItem(list1.itemName,list1.quantity);
+	// };
 
-	list2.removeItem = function(itemIndex){
-		shoppingList.removeItem(itemIndex);
-	};
+	// list2.removeItem = function(itemIndex){
+	// 	shoppingList.removeItem(itemIndex);
+	// };
 }
 
 
 
 function ShoppingListService() {
 	var service = this;
-	var items = [];
+	var toBuyList = initList;
+	var bougthList = [];
 
-	service.additem = function(itemName,quantity){
-		var item = {
-			name: itemName,
-			quantity: quantity
-		};
-		items.push(item);
+
+	service.checkOff = function(itemIndex){
+		var temp = toBuyList[itemIndex];
+		console.log("Item to check off:",temp);
+		toBuyList.splice(itemIndex,1);
+		bougthList.push(temp);
 	};
 
-	service.removeItem = function(itemIndex){
-		items.splice(itemIndex,1);
+	service.getToBuy = function(){
+		return toBuyList;
 	};
 
-	service.getItems = function(){
-		return items;
+	service.getBougth = function(){
+		return bougthList;
 	};
 
-}
-
-function ShoppingListFactory(){
-	var factory = function (){
-		return new ShoppingListService();
-	};
-	return factory;
 }
 
 
