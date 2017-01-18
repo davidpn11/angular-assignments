@@ -27,28 +27,30 @@ function FoundItemsDirective() {
 NarrowItDownController.$inject = ['NarrowItDownService'];
 function NarrowItDownController(NarrowItDownService){
 	var ctrl = this;	
-	var found = [];
-	
+	ctrl.list = [{"description":"oi"},{"description":"tchau"}];
+	ctrl.term = "";
+
+
 	ctrl.searchItems = function () {
 		console.log("Searching for "+ctrl.term);
-		found = NarrowItDownService.getMatchedMenuItems(ctrl.term);
+		ctrl.list = NarrowItDownService.getMatchedMenuItems(ctrl.term);
 		//console.log(found.length);
 	};
 
 	ctrl.removeItem = function(itemIndex){
 		console.log("Removing...");
-		found.splice(itemIndex,1);
+		list.splice(itemIndex,1);
 	};
 
 	ctrl.emptyList = function () {
-		if(found.length==0){			
+		if(ctrl.list.length==0){			
 			return true;
 		}else{
 			return false;
 		}
 	};
-	
-	
+};
+
 	// promise.then(function (response) {
 	// 	narrow.menu = response;	
 	// 	console.log(narrow.menu);
@@ -56,12 +58,13 @@ function NarrowItDownController(NarrowItDownService){
 	// 	console.log("ERROR");
 	// });
 	
-	
-};
+
 
 NarrowItDownService.$inject = ['$http','ApiBasePath'];
 function NarrowItDownService($http,ApiBasePath){
+	
 	var service = this;
+
 	service.getMatchedMenuItems = function (searchTerm) {  
 		var response = $http({
 			method: "GET",

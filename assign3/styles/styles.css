@@ -50,3 +50,9 @@ input[type="text"] {
     transform: rotate(360deg);
   }
 }
+
+
+#crtl{
+  float:left;
+    
+}
