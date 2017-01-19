@@ -27,19 +27,17 @@ function FoundItemsDirective() {
 NarrowItDownController.$inject = ['NarrowItDownService'];
 function NarrowItDownController(NarrowItDownService){
 	var ctrl = this;	
-	ctrl.list = [{"description":"oi"},{"description":"tchau"}];
-	ctrl.term = "";
-
-
+	//ctrl.list = [{"description":"oi"},{"description":"tchau"}];
+	ctrl.term = "";	
+	ctrl.list = [];	
 	ctrl.searchItems = function () {
 		console.log("Searching for "+ctrl.term);
-		ctrl.list = NarrowItDownService.getMatchedMenuItems(ctrl.term);
-		//console.log(found.length);
+		ctrl.list = NarrowItDownService.getMatchedMenuItems(ctrl.term);		
 	};
 
 	ctrl.removeItem = function(itemIndex){
 		console.log("Removing...");
-		list.splice(itemIndex,1);
+		ctrl.list.splice(itemIndex,1);
 	};
 
 	ctrl.emptyList = function () {
@@ -64,6 +62,7 @@ NarrowItDownService.$inject = ['$http','ApiBasePath'];
 function NarrowItDownService($http,ApiBasePath){
 	
 	var service = this;
+	var list = [];
 
 	service.getMatchedMenuItems = function (searchTerm) {  
 		var response = $http({
@@ -83,12 +82,14 @@ function NarrowItDownService($http,ApiBasePath){
 			 }
 			 console.log("Total: "+items.length+"--Filtered: "+filter_response.length);
 			return filter_response;		
+			//list = filter_response;
 
 		},function error(response) {
 			console.log("ERROR");
 		}
 		);	
 	};
+	
 };
 
 
