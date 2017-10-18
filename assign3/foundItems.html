@@ -1,9 +1,0 @@
-
-<br><br><br>
-<ol>
-  <li ng-repeat="item in ctrl.list">
-    {{item.short_name}}, {{item.name}}, {{item.description}}    
-    <button ng-click="ctrl.removeItem({index: $index});">Remove Item</button>
-  </li>
-</ol>
-<div class="error" ng-if="ctrl.emptyList()">No Items to display!</div>
