@@ -22,11 +22,13 @@ MenuController.$inject = ['MenuService']
 function MenuController(MenuService) {
     let ctrl = this;
     ctrl.found_items = [];
+    has_searched = 0;
+
     MenuService.retrieveDataFromAPI();
 
     ctrl.makeSearch = () => {
         ctrl.found_items = [];
-        ctrl.has_searched = true;
+        has_searched = true;
         let all_items = MenuService.getMenuItems();
         if(this.filter != undefined && this.filter != ""){
             for(var i = 0; i < all_items.length; i++){
@@ -35,7 +37,6 @@ function MenuController(MenuService) {
                     ctrl.found_items.push(item);
                 }
             }
-            console.log(ctrl.found_items);
         }
     };
 
@@ -44,7 +45,7 @@ function MenuController(MenuService) {
     };
 
     ctrl.hasItems = (items) => {        
-        if(items.length == 0){
+        if(items.length == 0 && has_searched){
             return true;
         }else{
             return false;
