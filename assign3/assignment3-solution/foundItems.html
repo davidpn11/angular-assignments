@@ -1,0 +1,23 @@
+<div class="row col-md-12" ng-if="ctrl.items.length > 0">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Short Name</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in ctrl.items">
+                <td>{{item.name}}</td>
+                <td>{{item.short_name}}</td>
+                <td>{{item.description}}</td>
+                <td><button ng-click="ctrl.onRemove({index: $index});" class="btn btn-danger">Don't want this one!</button></td>
+            </tr>            
+        </tbody>
+    </table>   
+</div>
+<div class="row col-md-10 alert alert-danger" ng-if="ctrl.hasItems(ctrl.items)">
+        <strong> Nothing found!</strong>
+</div>
