@@ -64,7 +64,7 @@ function MenuService($http) {
         if(items.length == 0){
             $http({
                 method: "GET",
-                url: ("http://davids-restaurant.herokuapp.com/menu_items.json")
+                url: ("https://davids-restaurant.herokuapp.com/menu_items.json")
             })
             .then((response) => {
                 this.items = response.data.menu_items;
